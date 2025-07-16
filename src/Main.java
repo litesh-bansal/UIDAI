@@ -13,7 +13,7 @@ public class Main {
         File jsonFile = new File("people.json");
         ObjectMapper mapper = new ObjectMapper();
 
-        // 1. Read existing data if the file exists and is not empty
+        
         if (jsonFile.exists() && jsonFile.length() > 0) {
             try {
                 allPeople = mapper.readValue(jsonFile, new TypeReference<List<Person>>() {});
@@ -21,7 +21,7 @@ public class Main {
             } catch (IOException e) {
                 System.err.println("❌ Error reading existing data from people.json: " + e.getMessage());
                 System.err.println("Starting with an empty list for new data.");
-                // We'll proceed with an empty list if loading fails.
+                
             }
         }
 
@@ -38,7 +38,7 @@ public class Main {
                     validInput = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("❌ Invalid input. Please enter a whole number for the count.");
+                System.out.println("Invalid input. Please enter a whole number for the count.");
                 scanner.nextLine(); // Consume the invalid input
             }
         }
@@ -53,7 +53,7 @@ public class Main {
                 System.out.print("Name: ");
                 name = scanner.nextLine();
                 if (name.trim().isEmpty()) {
-                    System.out.println("⚠️ Name cannot be empty. Please enter a name.");
+                    System.out.println("Name cannot be empty.");
                 } else {
                     validInput = true;
                 }
@@ -65,15 +65,15 @@ public class Main {
                 System.out.print("Age: ");
                 try {
                     age = scanner.nextInt();
-                    if (age < 0 || age > 150) { // Example age validation
-                        System.out.println("⚠️ Age must be between 0 and 150. Please enter a valid age.");
+                    if (age < 0) { 
+                        System.out.println("Please enter a valid age.");
                     } else {
                         validInput = true;
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("❌ Invalid input. Please enter a whole number for age.");
+                    System.out.println("Invalid input. Please enter a whole number for age.");
                 } finally {
-                    scanner.nextLine(); // Always consume the leftover newline
+                    scanner.nextLine(); 
                 }
             }
 
@@ -97,21 +97,19 @@ public class Main {
 
             System.out.print("Enter interests separated by commas (e.g., reading,gaming,sports): ");
             String interestInput = scanner.nextLine();
-            // Splitting by commas (with optional spaces) will inherently handle malformed inputs
-            // like "intrest1,,intrest2" by creating empty strings, which might be acceptable.
-            // If you need stricter validation (e.g., no empty interests), you'd add more logic here.
+           
             List<String> interests = Arrays.asList(interestInput.split("\\s*,\\s*"));
 
             Person person = new Person(name, age, balance, interests);
             allPeople.add(person);
         }
 
-        // 2. Write the combined list (existing + new) back to the file
+      
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, allPeople);
             System.out.println("\n✅ Successfully saved all data (including new entries) to: " + jsonFile.getAbsolutePath());
         } catch (IOException e) {
-            System.err.println("❌ Error saving data to people.json: " + e.getMessage());
+            System.err.println("Error saving data to people.json: " + e.getMessage());
             e.printStackTrace(); // Print stack trace for debugging
         } finally {
             scanner.close();
