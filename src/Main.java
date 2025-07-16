@@ -19,7 +19,7 @@ public class Main {
                 allPeople = mapper.readValue(jsonFile, new TypeReference<List<Person>>() {});
                 System.out.println("Existing data loaded from people.json");
             } catch (IOException e) {
-                System.err.println("❌ Error reading existing data from people.json: " + e.getMessage());
+                System.err.println("Error reading existing data from people.json: " + e.getMessage());
                 System.err.println("Starting with an empty list for new data.");
                 
             }
@@ -32,7 +32,7 @@ public class Main {
             try {
                 N = scanner.nextInt();
                 if (N < 0) {
-                    System.out.println("⚠️ Number of persons cannot be negative. Please enter a positive number.");
+                    System.out.println("Number of persons cannot be negative. Please enter a positive number.");
                     scanner.nextLine(); // Consume the invalid input
                 } else {
                     validInput = true;
@@ -84,12 +84,12 @@ public class Main {
                 try {
                     balance = scanner.nextDouble();
                     if (balance < 0) { // Example balance validation
-                        System.out.println("⚠️ Balance cannot be negative. Please enter a non-negative value.");
+                        System.out.println("Balance cannot be negative. Please enter a non-negative value.");
                     } else {
                         validInput = true;
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("❌ Invalid input. Please enter a valid number for balance (e.g., 400.00).");
+                    System.out.println("Invalid input. Please enter a valid number for balance (e.g., 400.00).");
                 } finally {
                     scanner.nextLine(); // Always consume the leftover newline
                 }
@@ -107,7 +107,7 @@ public class Main {
       
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, allPeople);
-            System.out.println("\n✅ Successfully saved all data (including new entries) to: " + jsonFile.getAbsolutePath());
+            System.out.println("\nSuccessfully saved all data (including new entries) to: " + jsonFile.getAbsolutePath());
         } catch (IOException e) {
             System.err.println("Error saving data to people.json: " + e.getMessage());
             e.printStackTrace(); // Print stack trace for debugging
